@@ -1,13 +1,18 @@
-import { ProductsResponseDTO } from "@/dto/products-response.dto";
 import ComplaintsForm from "@/components/complaints-form";
+import { ProductsResponseDTO } from "@/dto/products-response.dto";
 import { parseStringToBoolean } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
-const PRODUCTS_ENDPOINT = process.env.PRODUCTS_ENDPOINT!;
+const PRODUCTS_ENDPOINT = process.env.NEXT_PUBLIC_PRODUCTS_ENDPOINT!;
 
 export default async function Home() {
   const response = await fetch(PRODUCTS_ENDPOINT);
 
   const data: ProductsResponseDTO = await response.json();
+
+  if (!data) {
+    return notFound();
+  }
 
   const products = data.products;
 
