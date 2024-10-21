@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 
 const PRODUCTS_ENDPOINT = process.env.NEXT_PUBLIC_PRODUCTS_ENDPOINT!;
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const response = await fetch(PRODUCTS_ENDPOINT);
 
