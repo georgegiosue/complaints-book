@@ -27,6 +27,8 @@ import { useState } from "react";
 import { Captcha } from "./captcha";
 import { IssueDate } from "./issue-date";
 import { UploadSignature } from "./upload-signature";
+import { id } from "date-fns/locale";
+import { Checkbox } from "./ui/checkbox";
 
 type ComplaintsFormProps = {
   className?: string;
@@ -56,7 +58,8 @@ const ComplaintsForm: React.FC<ComplaintsFormProps> = ({
   recaptcha,
 }) => {
   const [captchaValid, setCaptchaValid] = useState(false);
-
+  const [isMinor, setIsMinor] = useState(false)
+  
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // if (!captchaValid) {
@@ -102,11 +105,17 @@ const ComplaintsForm: React.FC<ComplaintsFormProps> = ({
               <Input id="email" type="email" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="guardian">
-                Padre o Madre (en caso de menor de edad)
-              </Label>
-              <Input id="guardian" />
+              <div className="flex items-center space-x-2">
+                <Checkbox id="isMinor" checked={isMinor} onCheckedChange={(checked) => setIsMinor(checked === true)} />
+                <Label htmlFor="isMinor">Es menor de edad</Label>
+              </div>
             </div>
+            {isMinor && (
+              <div className="space-y-2">
+                <Label htmlFor="guardian">Padre o Madre</Label>
+                <Input id="guardian" required={isMinor} />
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
